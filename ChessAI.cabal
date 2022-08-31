@@ -1,0 +1,72 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           ChessAI
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/ChessAI#readme>
+homepage:       https://github.com/mjachi/ChessAI#readme
+bug-reports:    https://github.com/mjachi/ChessAI/issues
+author:         Matthew Meeker
+maintainer:     matthew_meeker@brown.edu
+copyright:      2022 Matthew Meeker
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/mjachi/ChessAI
+
+library
+  exposed-modules:
+      Chess.Board
+      Lib
+      Utils
+  other-modules:
+      Paths_ChessAI
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      ansi-terminal
+    , base >=4.7 && <5
+    , deepseq
+    , matrix
+  default-language: Haskell2010
+
+executable ChessAI-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_ChessAI
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      ChessAI
+    , ansi-terminal
+    , base >=4.7 && <5
+    , deepseq
+    , matrix
+  default-language: Haskell2010
+
+test-suite ChessAI-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_ChessAI
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      ChessAI
+    , ansi-terminal
+    , base >=4.7 && <5
+    , deepseq
+    , matrix
+  default-language: Haskell2010
