@@ -26,7 +26,8 @@ source-repository head
 library
   exposed-modules:
       Chess.Board
-      Lib
+      Game
+      Player
       Utils
   other-modules:
       Paths_ChessAI
