@@ -3,6 +3,11 @@
 
 module Chess.Board where
 
+-----------------------------------------------------------------------------------------
+-- Module defines the Chessboard, a few relevant types, and basic functionalities. See
+-- the module Move for implementations of checking logic.
+-----------------------------------------------------------------------------------------
+
 import Control.DeepSeq
 import qualified Data.List as List (intersect)
 import Data.Matrix
@@ -26,7 +31,8 @@ instance Show Piece where
     Queen -> "Q"
     King -> "K"
 
--- | Colored Piece. Associates a piece to a color, meaning a player assumes ownership/ control thereof.
+-- | Colored Piece. Associates a piece to a color, meaning a player assumes ownership/
+-- control thereof.
 newtype CPiece = CPiece (Color, Piece) deriving (Eq, Generic)
 
 instance Show CPiece where
@@ -80,3 +86,62 @@ classicLayout (i, j)
 -----------------------------------------------------------------------------------------
 -- BOARD FUNCTIONALITY
 -----------------------------------------------------------------------------------------
+
+-- | Given a board, starting position, and resulting position, moves piece at A
+--   to B by blanking out A. Does not check validity.
+placePiece :: Board -> Position -> Position -> Board
+placePiece board positionFrom positionTo =
+  let srcSquare = board ! positionFrom
+   in setElem BlankSquare positionFrom (setElem srcSquare positionTo board)
+
+-----------------------------------------------------------------------------------------
+-- LEGAL MOVES BY PIECE
+-----------------------------------------------------------------------------------------
+
+-- | Returns legal moves for the black side pawns; must be pruned given greater context
+bPawnMovements :: Position -> [[Position]]
+bPawnMovements (i, j) =
+  if i == 2
+    then [[(i + 1, j), (i + 2, j)]]
+    else [[(i + 1, j)]]
+
+-- | Returns legal moves for the white side pawns; must be pruned given greater context
+wPawnMovements :: Position -> [[Position]]
+wPawnMovements (i, j) =
+  if i == 7
+    then [[(i - 1, j), (i - 2, j)]]
+    else [[(i - 1, j)]]
+
+-- | Returns legal moves for a Knight piece; must be pruned given greater context
+knightMovements :: Position -> [[Position]]
+knightMovements (i, j) =
+  let factors = [(x, y) | x <- [-2, -1, 1, 2], y <- [-2, -1, 1, 2], abs x + abs y == 3]
+   in [[(i + x, j + y)] | (x, y) <- factors]
+
+-- | Returns legal moves for a Bishop piece; must be pruned given greater context
+bishopMovements :: Position -> [[Position]]
+bishopMovements (i, j) =
+  let upperLeft = zip (reverse [1 .. i - 1]) (reverse [1 .. j - 1])
+      upperRight = zip (reverse [1 .. i - 1]) [j + 1 .. 8]
+      lowerLeft = zip [i + 1 .. 8] (reverse [1 .. j - 1])
+      lowerRight = zip [i + 1 .. 8] [j + 1 .. 8]
+   in [upperLeft, upperRight, lowerLeft, lowerRight]
+
+-- | Returns legal moves for a Rook piece; must be pruned given greater context
+rookMovements :: Position -> [[Position]]
+rookMovements (i, j) =
+  let up = [(x, y) | x <- reverse [1 .. i - 1], y <- [j]]
+      down = [(x, y) | x <- [i + 1 .. 8], y <- [j]]
+      left = [(x, y) | x <- [i], y <- reverse [1 .. j - 1]]
+      right = [(x, y) | x <- [i], y <- [j + 1 .. 8]]
+   in [up, down, left, right]
+
+-- | Returns legal moves for a Queen piece; must be pruned given greater context
+queenMovements :: Position -> [[Position]]
+queenMovements (i, j) = bishopMovements (i, j) ++ rookMovements (i, j)
+
+-- | Returns legal moves for a King piece; must be pruned given greater context
+kingMovements :: Position -> [[Position]]
+kingMovements (i, j) =
+  let firstSteps positions = ([head positions | not (null positions)])
+   in map firstSteps $ queenMovements (i, j)

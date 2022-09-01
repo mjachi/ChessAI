@@ -24,6 +24,7 @@ dependencies:
 - ansi-terminal 
 - deepseq
 - matrix
+- QuickCheck
 
 ghc-options:
 - -Wall

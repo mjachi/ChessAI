@@ -21,13 +21,13 @@ data Game = Game
 
 -- | Initializes a blank Game
 newGame :: Player.Player -> Player.Player -> Game
-newGame p1 p2 = new' p1 p2 [] White
+newGame p1 p2 = Game p1 p2 [] White
 
 -- | Given a new board, progresses the game state by one move.
-updateGame :: Game -> Chess.Board.Board -> Game
-updateGame game newBoard =
+update :: Game -> Chess.Board.Board -> Game
+update game nBoard =
   let p1 = player1 game
       p2 = player2 game
-      newPlays = newBoard : plays game
+      newPlays = nBoard : plays game
       nextTurn = colorSwitch $ turn game
-   in newGame' p1 p2 newPlays nextTurn
+   in Game {player1 = p1, player2 = p2, plays = newPlays, turn = nextTurn}
