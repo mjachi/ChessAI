@@ -1,7 +1,33 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 
-module Chess.Board where
+module Chess.Board
+  ( Board,
+    Position,
+    Square (BlankSquare, OccupiedSquare),
+    Piece (Pawn, Rook, Knight, Bishop, Queen, King),
+    CPiece (CPiece),
+    newBoard,
+    newBoardFromList,
+    classicBoard,
+    legalGrab,
+    freeMovements,
+    possibleMovementsForeachTeamPosition,
+    ccMovements,
+    enemyMovements,
+    allMovements,
+    movePiece,
+    isCheck,
+    isCheckMate,
+    placePiece,
+    isValid,
+    piece,
+    square,
+    isSquareFree,
+    isSquareOccupiedByEnemy,
+    positionsOf,
+  )
+where
 
 -----------------------------------------------------------------------------------------
 -- Module defines the Chessboard, a few relevant types, and basic functionalities. See
@@ -156,9 +182,20 @@ color BlankSquare = Nothing
 -- STATE CHECKERS
 -----------------------------------------------------------------------------------------
 
+-- | Determine if the current board is in a valid state
+isValid :: Board -> Bool
+isValid board =
+  let blackKingPos = head $ positionsOf board Black King
+      whiteKingPos = head $ positionsOf board White King
+   in not (isPositionThreatened board White blackKingPos || isPositionThreatened board Black whiteKingPos)
+
 -- | Determines whether or not the current position has ```Color``` ```cc``` in check
 isCheck :: Board -> Color -> Bool
 isCheck board cc = isPositionThreatened board cc $ head $ positionsOf board cc King
+
+-- | Determines whether or not the given Board denotes a completed game ie in checkmate
+isCheckMate :: Board -> Color -> Bool
+isCheckMate board cc = isCheck board cc && null (ccMovements board cc)
 
 -- | Determines whether or not the current position has a ```Position``` ```position```
 -- threatened for ```Color``` ```cc```
