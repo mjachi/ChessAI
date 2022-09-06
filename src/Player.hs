@@ -30,16 +30,20 @@ colorSwitch x = case x of
 
 -- A few simple type defintions...
 newtype PlayerColor = PlayerColor {c :: Color}
+  deriving (Show, Generic, NFData)
 
 newtype PlayerName = PlayerName {name :: String}
+  deriving (Show, Generic, NFData)
 
 newtype ComputerDifficulty = ComputerDifficulty {val :: Integer}
+  deriving (Show, Generic, NFData)
 
 -- | A player is either a human instance (ie, we look for moves coming from stdin) or
 -- a computer instance, for which we generate the moves.
 data Player
   = Human PlayerName PlayerColor
   | Computer ComputerDifficulty PlayerColor
+  deriving (Show, Generic, NFData)
 
 -- | Quick getter method by pattern matching to retrieve the actual Color type
 getPlayerColor :: Player -> Color

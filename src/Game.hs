@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 
 module Game
@@ -23,6 +24,7 @@ import AI.BoardAI
 import AI.GameAI
 import Chess.Board
 import qualified Chess.Board as Board
+import Control.DeepSeq
 import Data.Maybe (catMaybes)
 import GHC.Generics (Generic)
 import Player (Color (Black, White), Player, colorSwitch, getPlayerColor)
@@ -38,7 +40,7 @@ data Game = Game
     plays :: [Chess.Board.Board],
     turn :: Player.Color
   }
-  deriving (Generic)
+  deriving (Generic, NFData)
 
 instance Show Game where
   show Game {player1 = _, player2 = _, plays = pp} = show $ head pp

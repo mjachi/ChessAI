@@ -1,4 +1,6 @@
-module REPL where
+{-# LANGUAGE DeriveDataTypeable #-}
+
+module REPL (mainWrap) where
 
 import qualified AI.GameAI
 import qualified Chess.Board
@@ -15,8 +17,10 @@ data Args
   = PvP {p1name :: String, p1color :: String, p2name :: String}
   | PvC {hname :: String, hcolor :: String, cstrength :: Integer}
   | CvC {p1strength :: Integer, p2strength :: Integer}
-  deriving (Show, Typeable)
+  deriving (Show, Data, Typeable)
 
+-- | Player vs Player argument specification
+playerVsPlayer :: Args
 playerVsPlayer =
   PvP
     { p1name = "Player 1" &= help "The player 1's name",
@@ -24,6 +28,8 @@ playerVsPlayer =
       p2name = "Player 2" &= help "The player 2's name"
     }
 
+-- | Player vs Computer argument specification
+playerVsComputer :: Args
 playerVsComputer =
   PvC
     { hname = "Player 1" &= help "The human player's name",
@@ -31,6 +37,8 @@ playerVsComputer =
       cstrength = 3 &= help "The computer player's strength"
     }
 
+-- | Computer vs Computer argument specification
+computerVsComputer :: Args
 computerVsComputer =
   CvC
     { p1strength = 3 &= help "The player 1's strength",

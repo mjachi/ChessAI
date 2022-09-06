@@ -58,7 +58,7 @@ instance Show Piece where
 
 -- | Colored Piece. Associates a piece to a color, meaning a player assumes ownership/
 -- control thereof.
-newtype CPiece = CPiece (Color, Piece) deriving (Eq, Generic)
+newtype CPiece = CPiece (Color, Piece) deriving (Eq, Generic, NFData)
 
 instance Show CPiece where
   show (CPiece (cc, pp)) = show cc ++ show pp
@@ -68,7 +68,7 @@ type Position = (Int, Int)
 
 -- | Square in the Board Matrix is either occupied or black
 data Square = BlankSquare | OccupiedSquare CPiece
-  deriving (Eq)
+  deriving (Eq, Generic, NFData)
 
 instance Show Square where
   show BlankSquare = "_"
