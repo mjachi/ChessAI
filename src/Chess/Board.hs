@@ -18,7 +18,7 @@ module Chess.Board
     allMovements,
     movePiece,
     isCheck,
-    isCheckMate,
+    isCheckmate,
     placePiece,
     isValid,
     piece,
@@ -156,6 +156,7 @@ positionsOf board cc somePiece =
       predicate position = CPiece (cc, somePiece) == piece (square board position)
    in filter predicate occupiedPositions
 
+-- | Given a board and a color, directly returns list of enemy's legal moves
 enemyMovements :: Board -> Color -> [Position]
 enemyMovements board cc =
   let enemyColor = colorSwitch cc
@@ -194,8 +195,8 @@ isCheck :: Board -> Color -> Bool
 isCheck board cc = isPositionThreatened board cc $ head $ positionsOf board cc King
 
 -- | Determines whether or not the given Board denotes a completed game ie in checkmate
-isCheckMate :: Board -> Color -> Bool
-isCheckMate board cc = isCheck board cc && null (ccMovements board cc)
+isCheckmate :: Board -> Color -> Bool
+isCheckmate board cc = isCheck board cc && null (ccMovements board cc)
 
 -- | Determines whether or not the current position has a ```Position``` ```position```
 -- threatened for ```Color``` ```cc```

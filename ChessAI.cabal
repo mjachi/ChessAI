@@ -25,9 +25,12 @@ source-repository head
 
 library
   exposed-modules:
+      AI.BoardAI
+      AI.GameAI
       Chess.Board
       Game
       Player
+      REPL
       Utils
   other-modules:
       Paths_ChessAI
@@ -38,8 +41,12 @@ library
       QuickCheck
     , ansi-terminal
     , base >=4.7 && <5
+    , cmdargs
+    , containers
     , deepseq
     , matrix
+    , parallel
+    , split
   default-language: Haskell2010
 
 executable ChessAI-exe
@@ -54,8 +61,12 @@ executable ChessAI-exe
     , QuickCheck
     , ansi-terminal
     , base >=4.7 && <5
+    , cmdargs
+    , containers
     , deepseq
     , matrix
+    , parallel
+    , split
   default-language: Haskell2010
 
 test-suite ChessAI-test
@@ -71,6 +82,10 @@ test-suite ChessAI-test
     , QuickCheck
     , ansi-terminal
     , base >=4.7 && <5
+    , cmdargs
+    , containers
     , deepseq
     , matrix
+    , parallel
+    , split
   default-language: Haskell2010

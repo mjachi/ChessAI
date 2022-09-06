@@ -10,7 +10,6 @@ import GHC.Generics (Generic)
 -- COLOR DENOTION
 -----------------------------------------------------------------------------------------
 
-
 -- | Several structrs are associated to a color; used for Player,
 --   board tiles, pieces, etc.
 data Color = White | Black deriving (Eq, Generic, NFData)
@@ -41,3 +40,8 @@ newtype ComputerDifficulty = ComputerDifficulty {val :: Integer}
 data Player
   = Human PlayerName PlayerColor
   | Computer ComputerDifficulty PlayerColor
+
+-- | Quick getter method by pattern matching to retrieve the actual Color type
+getPlayerColor :: Player -> Color
+getPlayerColor (Human _ cc) = c cc
+getPlayerColor (Computer _ cc) = c cc

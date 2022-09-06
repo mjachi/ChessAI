@@ -23,8 +23,12 @@ dependencies:
 - base >= 4.7 && < 5
 - ansi-terminal 
 - deepseq
+- parallel
 - matrix
 - QuickCheck
+- cmdargs
+- containers
+- split
 
 ghc-options:
 - -Wall
