@@ -13,6 +13,7 @@ import qualified Player
 import System.Console.CmdArgs
 import qualified Utils
 
+-- |
 data Args
   = PvP {p1name :: String, p1color :: String, p2name :: String}
   | PvC {hname :: String, hcolor :: String, cstrength :: Integer}
